@@ -6,7 +6,7 @@ import postgres from "postgres";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
 
-const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require" });
+const sql = postgres(process.env.POSTGRES_URL!, { ssl: "require", prepare: false });
 
 const FormSchema = z.object({
   id: z.string(),
@@ -37,9 +37,7 @@ export async function createInvoice(formData: FormData) {
     `;
   } catch (error) {
     console.error(error);
-    return {
-      message: "Database Error: Failed to Create Invoice.",
-    };
+    throw new Error("Database Error: Failed to Create Invoice.");
   }
 
   revalidatePath("/dashboard/invoices");
@@ -63,7 +61,7 @@ export async function updateInvoice(id: string, formData: FormData) {
       `;
   } catch (error) {
     console.error(error);
-    return { message: "Database Error: Failed to Update Invoice." };
+    throw new Error("Database Error: Failed to Update Invoice.");
   }
 
   revalidatePath("/dashboard/invoices");
@@ -76,7 +74,7 @@ export async function deleteInvoice(id: string) {
     revalidatePath("/dashboard/invoices");
   } catch (error) {
     console.error(error);
-    return { message: "Database Error: Failed to Delete Invoice." };
+    throw new Error("Database Error: Failed to Delete Invoice.");
   }
   redirect("/dashboard/invoices");
 }
