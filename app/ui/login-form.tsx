@@ -78,6 +78,11 @@ export default function LoginForm() {
           )}
         </div>
       </div>
+      <div className="mt-3 rounded-md border border-gray-200 bg-gray-50 px-4 py-3 text-xs text-gray-500">
+        <p className="font-medium text-gray-700">Test credentials</p>
+        <p className="mt-1">Email: <span className="font-mono">user@nextmail.com</span></p>
+        <p>Password: <span className="font-mono">123456</span></p>
+      </div>
     </form>
   );
 }
